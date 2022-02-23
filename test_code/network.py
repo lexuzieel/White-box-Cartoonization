@@ -42,14 +42,14 @@ def unet_generator(inputs, channel=32, num_blocks=4, name='generator', reuse=Fal
         x2 = tf.nn.leaky_relu(x2)
         
         h1, w1 = tf.shape(x2)[1], tf.shape(x2)[2]
-        x3 = tf.image.resize_bilinear(x2, (h1*2, w1*2))
+        x3 = tf.compat.v1.image.resize_bilinear(x2, (h1*2, w1*2))
         x3 = slim.convolution2d(x3+x1, channel*2, [3, 3], activation_fn=None)
         x3 = tf.nn.leaky_relu(x3)
         x3 = slim.convolution2d(x3, channel, [3, 3], activation_fn=None)
         x3 = tf.nn.leaky_relu(x3)
 
         h2, w2 = tf.shape(x3)[1], tf.shape(x3)[2]
-        x4 = tf.image.resize_bilinear(x3, (h2*2, w2*2))
+        x4 = tf.compat.v1.image.resize_bilinear(x3, (h2*2, w2*2))
         x4 = slim.convolution2d(x4+x0, channel, [3, 3], activation_fn=None)
         x4 = tf.nn.leaky_relu(x4)
         x4 = slim.convolution2d(x4, 3, [7, 7], activation_fn=None)
